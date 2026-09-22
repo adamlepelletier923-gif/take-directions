@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<style>:root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}*{box-sizing:border-box}</style>
+<title>Trente directions Take</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Work+Sans:wght@600;700&display=swap">
+<style>
+  :root{
+    /* Jetons repris de apps/mobile/src/constants/design-tokens.ts — thème clair */
+    --bg:#FFFFFF; --surface:#FFFFFF; --muted:#F0F2F5; --raised:#FFFFFF;
+    --ink:#141414; --ink2:#6B6E73; --ink3:#84888E; --soft:#494B4F;
+    --line:#E3E6EA; --hair:#1414141A; --glass:#F0F2F5; --glassLine:#1414140D;
+    --fg:#0A0A0A; --fgInv:#FFFFFF;
+    --brand:#D81E31; --yes:#16A34A; --no:#DC2626; --yesFill:#008B45; --noFill:#C53637;
+    --gold:#C9A227; --track:#E3E6EA;
+    /* Page */
+    --paper:#F7F8FA; --card:#FFFFFF; --cardLine:#E6E9ED; --note:#6B6E73;
+    --shadow:0 1px 2px #0000000D, 0 8px 24px #14141408;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#000000; --surface:#16181C; --muted:#16181C; --raised:#1E2126;
+      --ink:#E7E9EA; --ink2:#83898F; --ink3:#6B6F75; --soft:#C4C7CA;
+      --line:#2F3336; --hair:#FFFFFF1A; --glass:#FFFFFF14; --glassLine:#FFFFFF24;
+      --fg:#E7E9EA; --fgInv:#000000;
+      --brand:#ED6F7C; --yes:#16A34A; --no:#DC2626; --yesFill:#16A34A; --noFill:#DC5551;
+      --track:#2F3336;
+      --paper:#0B0C0E; --card:#141619; --cardLine:#24282C; --note:#83898F;
+      --shadow:0 1px 2px #00000055, 0 8px 24px #00000033;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#000000; --surface:#16181C; --muted:#16181C; --raised:#1E2126;
+    --ink:#E7E9EA; --ink2:#83898F; --ink3:#6B6F75; --soft:#C4C7CA;
+    --line:#2F3336; --hair:#FFFFFF1A; --glass:#FFFFFF14; --glassLine:#FFFFFF24;
+    --fg:#E7E9EA; --fgInv:#000000;
+    --brand:#ED6F7C; --yes:#16A34A; --no:#DC2626; --yesFill:#16A34A; --noFill:#DC5551;
+    --track:#2F3336;
+    --paper:#0B0C0E; --card:#141619; --cardLine:#24282C; --note:#83898F;
+    --shadow:0 1px 2px #00000055, 0 8px 24px #00000033;
+  }
+
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    padding-inline:16px; padding-block:0;
+  }
+  .wrap{max-width:1180px; margin-inline:auto;}
+
+  /* ── En-tête ─────────────────────────────────────────────────── */
+  header{padding-block:40px 28px; display:flex; flex-direction:column; gap:14px;}
+  .mark{font-family:"Work Sans",Inter,sans-serif; font-weight:700; font-size:34px;
+        letter-spacing:-1.2px; line-height:1;}
+  h1{margin:0; font-size:clamp(26px,5vw,38px); font-weight:700; letter-spacing:-.9px;
+     line-height:1.1; text-wrap:balance;}
+  .lede{margin:0; max-width:62ch; font-size:15.5px; line-height:1.6; color:var(--ink2);}
+  .lede b{color:var(--ink); font-weight:600;}
+
+  .legend{display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;}
+  .tag{font-size:12px; font-weight:600; letter-spacing:.2px; padding:5px 10px;
+       border-radius:999px; background:var(--muted); color:var(--ink2);
+       border:1px solid var(--cardLine);}
+  .tag.now{background:var(--ink); color:var(--bg); border-color:var(--ink);}
+
+  /* ── Sections ────────────────────────────────────────────────── */
+  section{padding-block:34px; border-top:1px solid var(--cardLine);}
+  .shead{display:flex; flex-direction:column; gap:7px; margin-bottom:22px;}
+  .eyebrow{font-size:11.5px; font-weight:700; letter-spacing:1.3px; text-transform:uppercase;
+           color:var(--brand);}
+  h2{margin:0; font-size:23px; font-weight:700; letter-spacing:-.5px;}
+  .said{margin:0; font-size:14.5px; line-height:1.55; color:var(--ink2); max-width:64ch;}
+  .said q{color:var(--ink); font-style:italic;}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(268px,1fr)); gap:18px;}
+
+  .opt{display:flex; flex-direction:column; gap:0; background:var(--card);
+       border:1px solid var(--cardLine); border-radius:14px; overflow:hidden;
+       box-shadow:var(--shadow);}
+  .opt > figcaption{display:flex; flex-direction:column; gap:4px;
+                    padding:12px 14px 13px; border-bottom:1px solid var(--cardLine);}
+  .num{display:flex; align-items:center; gap:7px; font-size:11.5px; font-weight:700;
+       letter-spacing:.7px; color:var(--ink3); font-variant-numeric:tabular-nums;}
+  .num .dot{width:5px; height:5px; border-radius:50%; background:var(--brand);}
+  .opt h3{margin:0; font-size:14.5px; font-weight:650; letter-spacing:-.2px;}
+  .why{margin:0; font-size:12.5px; line-height:1.5; color:var(--note);}
+  .current{margin-left:auto; font-size:10px; font-weight:700; letter-spacing:.6px;
+           padding:2px 7px; border-radius:999px; background:var(--ink); color:var(--bg);}
+
+  /* Écran simulé : fidèle aux jetons de l'app */
+  .screen{background:var(--bg); padding:14px; display:flex; flex-direction:column; gap:10px;}
+  .q{font-size:15px; font-weight:700; line-height:1.3; letter-spacing:-.3px; margin:0;}
+  .meta{display:flex; gap:6px; align-items:center; font-size:11.5px; color:var(--ink2);}
+  .ava{width:20px; height:20px; border-radius:50%; background:var(--muted);
+       display:grid; place-items:center; font-size:9px; font-weight:700; color:var(--ink2);}
+  .foot{display:flex; align-items:center; gap:14px; font-size:11.5px; color:var(--ink2);
+        font-variant-numeric:tabular-nums;}
+  .foot .sp{margin-left:auto;}
+
+  /* Barre d'option : hauteur 36 px, gap 6 px, px 12 — la géométrie réelle */
+  .row{position:relative; height:36px; border-radius:10px; background:var(--muted);
+       overflow:hidden; display:flex; align-items:center;}
+  .fill{position:absolute; inset:0 auto 0 0; background:var(--track);}
+  .row .lab{position:relative; display:flex; align-items:center; gap:6px;
+            width:100%; padding-inline:12px; font-size:14px; font-weight:500;}
+  .row .pct{margin-left:auto; font-size:13px; font-variant-numeric:tabular-nums; color:var(--ink2);}
+  .rows{display:flex; flex-direction:column; gap:6px;}
+
+  .yn{display:flex; gap:10px;}
+  .yn button{flex:1; height:40px; border-radius:999px; font:inherit; font-size:14px;
+             font-weight:600; cursor:default; background:transparent;}
+  .yn .y{border:1.5px solid var(--yes); color:var(--yes);}
+  .yn .n{border:1.5px solid var(--no); background:var(--no); color:#fff;}
+
+  .split{display:flex; align-items:center; justify-content:space-between;
+         font-size:13px; font-weight:700; font-variant-numeric:tabular-nums;}
+  .split .y{color:var(--yes);} .split .n{color:var(--no);}
+  .bar{height:6px; border-radius:99px; background:var(--noFill); overflow:hidden;}
+  .bar i{display:block; height:100%; background:var(--yesFill);}
+
+  /* Notation */
+  .avg{font-size:30px; font-weight:700; letter-spacing:-1px; font-variant-numeric:tabular-nums;}
+  .avg small{font-size:15px; font-weight:600; color:var(--ink2);}
+  .segs{display:flex; gap:5px;}
+  .segs i{flex:1; height:9px; border-radius:99px; background:var(--muted);}
+  .segs i.on{background:var(--fg);}
+  .ticks{display:flex; justify-content:space-between; font-size:10.5px; color:var(--ink3);
+         font-variant-numeric:tabular-nums;}
+  .cols{display:flex; align-items:flex-end; gap:7px; height:76px;}
+  .cols div{flex:1; display:flex; flex-direction:column; justify-content:flex-end; gap:5px;
+            height:100%;}
+  .cols b{display:block; border-radius:5px 5px 2px 2px; background:var(--fg);}
+  .cols span{font-size:10.5px; text-align:center; color:var(--ink3);}
+  .pips{display:flex; gap:6px; align-items:center;}
+  .pip{flex:1; aspect-ratio:1; border-radius:50%; border:1.5px solid var(--line);
+       display:grid; place-items:center; font-size:12px; font-weight:600; color:var(--ink2);}
+  .pip.on{background:var(--fg); border-color:var(--fg); color:var(--bg);}
+  .gauge{height:10px; border-radius:99px; background:var(--muted); position:relative;}
+  .gauge i{position:absolute; top:50%; width:16px; height:16px; border-radius:50%;
+           background:var(--fg); transform:translate(-50%,-50%); border:2.5px solid var(--bg);}
+  .micro{display:flex; gap:3px; align-items:flex-end; height:26px;}
+  .micro b{flex:1; background:var(--track); border-radius:2px;}
+
+  /* Explorer */
+  .searchbar{height:34px; border-radius:999px; background:var(--muted); display:flex;
+             align-items:center; padding-inline:12px; gap:7px; font-size:12.5px; color:var(--ink3);}
+  .cats{display:flex; gap:14px; font-size:12.5px; color:var(--ink2); overflow:hidden;}
+  .cats b{color:var(--ink); position:relative; padding-bottom:5px;}
+  .cats b::after{content:""; position:absolute; left:0; right:0; bottom:0; height:2px;
+                 background:var(--ink); border-radius:2px;}
+  .rank{display:flex; gap:10px; align-items:center;}
+  .rank .n{font-size:13px; font-weight:700; color:var(--ink2); width:13px;
+           font-variant-numeric:tabular-nums;}
+  .thumb{width:38px; height:38px; border-radius:8px; flex:none;
+         background:linear-gradient(140deg,#cfe0d6,#9fb6a8);}
+  .rank p{margin:0; font-size:12.5px; line-height:1.35; font-weight:500;}
+  .rank .sc{margin-left:auto; text-align:right; font-size:12.5px; font-weight:700;
+            font-variant-numeric:tabular-nums;}
+  .rank .sc em{display:block; font-style:normal; font-size:10px; font-weight:500; color:var(--ink3);}
+  .mini{height:3px; border-radius:99px; background:var(--noFill); overflow:hidden; margin-top:4px;}
+  .mini i{display:block; height:100%; background:var(--yesFill);}
+  .tiles{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .tile{border-radius:10px; overflow:hidden; background:var(--muted);}
+  .tile .im{height:52px; background:linear-gradient(140deg,#cfe0d6,#9fb6a8);}
+  .tile p{margin:0; padding:7px 8px 9px; font-size:11.5px; line-height:1.3; font-weight:500;}
+
+  /* En-tête accueil */
+  .topbar{display:flex; align-items:center; gap:16px; padding-block:4px;}
+  .topbar .bell{margin-left:auto; width:20px; height:20px; border-radius:5px; background:var(--muted);}
+  .tab{font-size:17px; font-weight:700; letter-spacing:-.4px; color:var(--ink3); position:relative;
+       padding-bottom:6px;}
+  .tab.on{color:var(--ink);}
+  .tab.on::after{content:""; position:absolute; left:2px; right:2px; bottom:0; height:3px;
+                 background:var(--ink); border-radius:3px;}
+  .pillbar{display:inline-flex; padding:3px; background:var(--muted); border-radius:999px; gap:2px;}
+  .pillbar span{font-size:13px; font-weight:600; padding:6px 14px; border-radius:999px; color:var(--ink2);}
+  .pillbar span.on{background:var(--bg); color:var(--ink); box-shadow:0 1px 2px #0000000F;}
+  .bigtitle{font-family:"Work Sans",Inter,sans-serif; font-size:26px; font-weight:700;
+            letter-spacing:-1px;}
+  .chev{font-size:12px; color:var(--ink2);}
+  .underfine{display:flex; gap:18px; font-size:13.5px; font-weight:600; color:var(--ink3);}
+  .underfine b{color:var(--ink); position:relative; padding-bottom:4px;}
+  .underfine b::after{content:""; position:absolute; left:0; right:0; bottom:0; height:1.5px;
+                      background:var(--brand);}
+
+  /* Questions publiées */
+  .qcard{border:1px solid var(--line); border-radius:12px; padding:11px 12px;
+         display:flex; flex-direction:column; gap:8px;}
+  .asked{font-size:11px; color:var(--ink3);}
+  .ans{display:flex; gap:7px; align-items:center; background:var(--muted);
+       border-radius:999px; padding:6px 10px; font-size:12.5px;}
+  .plain{display:flex; flex-direction:column; gap:6px; padding-block:11px;
+         border-bottom:1px solid var(--hair);}
+  .bub{max-width:88%; padding:9px 12px; border-radius:16px; font-size:13px; line-height:1.4;}
+  .bub.them{background:var(--muted); border-bottom-left-radius:5px;}
+  .bub.me{background:var(--fg); color:var(--bg); align-self:flex-end; border-bottom-right-radius:5px;}
+  .stack{display:flex; flex-direction:column; gap:7px;}
+  .tapline{display:flex; align-items:center; gap:8px; padding-block:12px;
+           border-bottom:1px solid var(--hair); font-size:13.5px; font-weight:600;}
+  .tapline .more{margin-left:auto; font-size:11.5px; font-weight:500; color:var(--brand);}
+
+  .ghost{width:19px; height:19px; border-radius:50%; background:var(--muted);
+         display:grid; place-items:center; flex:none;}
+
+  footer{padding-block:34px 46px; border-top:1px solid var(--cardLine);
+         font-size:13px; line-height:1.6; color:var(--ink2); display:flex;
+         flex-direction:column; gap:8px;}
+  footer b{color:var(--ink);}
+
+  @media (max-width:420px){
+    .grid{grid-template-columns:1fr;}
+    header{padding-block:28px 20px;}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important;}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="mark">take</div>
+  <h1>Trente directions à départager</h1>
+  <p class="lede">Imo a relevé cinq écrans où il trouve qu'il y a <b>trop d'informations</b> et veut voir
+    nos options. Voici six directions par écran. Chacune change un <b>mécanisme</b> — ce qu'on montre,
+    comment on le compare, ce qu'on cache — pas seulement un arrondi ou une couleur.
+    Tout est dessiné avec les couleurs réelles de l'app.</p>
+  <div class="legend">
+    <span class="tag now">Aujourd'hui</span>
+    <span class="tag">= ce que l'app affiche en ce moment, pour comparer</span>
+  </div>
+</header>
+
+<!-- ═══════════ A — NOTATION 1 À 5 ═══════════ -->
+<section>
+  <div class="shead">
+    <div class="eyebrow">A · Notation de 1 à 5</div>
+    <h2>Cinq barres, cinq pourcentages, une moyenne</h2>
+    <p class="said">Imo : <q>je veux voir les options de design pour les 1/2/3/4/5, on peut faire + simple
+      et + compréhensible</q>. Aujourd'hui l'écran empile cinq barres identiques : l'œil doit lire cinq
+      nombres avant de comprendre que la moyenne est 2,9.</p>
+  </div>
+  <div class="grid">
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>A1<span class="current">Aujourd'hui</span></div>
+        <h3>Cinq barres empilées</h3>
+        <p class="why">Chaque degré a sa ligne et son pourcentage. Précis, mais cinq lectures pour une réponse.</p>
+      </figcaption>
+      <div class="screen">
+        <p class="q">À quel point les modèles climatiques à long terme te convainquent ?</p>
+        <div class="rows">
+          <div class="row"><i class="fill" style="width:25%"></i><span class="lab">1<span class="pct">25 %</span></span></div>
+          <div class="row"><i class="fill" style="width:13%"></i><span class="lab">2<span class="pct">13 %</span></span></div>
+          <div class="row"><i class="fill" style="width:25%"></i><span class="lab">3<span class="pct">25 %</span></span></div>
+          <div class="row"><i class="fill" style="width:25%"></i><span class="lab">4<span class="pct">25 %</span></span></div>
+          <div class="row"><i class="fill" style="width:13%"></i><span class="lab">5<span class="pct">13 %</span></span></div>
+        </div>
+        <div class="foot"><span>8 commentaires</span><span class="sp">8 votes</span></div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>A2</div>
+        <h3>La moyenne d'abord</h3>
+        <p class="why">Le chiffre devient le sujet, la répartition passe en micro-barres. Une lecture au lieu de cinq.</p>
+      </figcaption>
+      <div class="screen">
+        <p class="q">À quel point les modèles climatiques à long terme te convainquent ?</p>
+        <div style="display:flex; align-items:flex-end; gap:12px;">
+          <div class="avg">2,9<small>/5</small></div>
+          <div style="flex:1;">
+            <div class="micro">
+              <b style="height:62%"></b><b style="height:32%"></b><b style="height:62%"></b>
+              <b style="height:62%"></b><b style="height:32%"></b>
+            </div>
+            <div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+          </div>
+        </div>
+        <div class="foot"><span>8 commentaires</span><span class="sp">8 votes</span></div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>A3</div>
+        <h3>Histogramme vertical</h3>
+        <p class="why">La forme de l'opinion se voit d'un coup : creux au milieu, pics aux extrêmes.</p>
+      </figcaption>
+      <div class="screen">
+        <p class="q">À quel point les modèles climatiques à long terme te convainquent ?</p>
+        <div class="cols">
+          <div><b style="height:62%"></b><span>1</span></div>
+          <div><b style="height:32%"></b><span>2</span></div>
+          <div><b style="height:62%"></b><span>3</span></div>
+          <div><b style="height:62%"></b><span>4</span></div>
+          <div><b style="height:32%"></b><span>5</span></div>
+        </div>
+        <div class="foot"><span class="avg" style="font-size:15px">2,9<small>/5</small></span><span class="sp">8 votes</span></div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>A4</div>
+        <h3>Cinq pastilles à toucher</h3>
+        <p class="why">L'échelle devient le contrôle lui-même : on tape le chiffre, la moyenne reste à côté.</p>
+      </figcaption>
+      <div class="screen">
+        <p class="q">À quel point les modèles climatiques à long terme te convainquent ?</p>
+        <div class="pips">
+          <span class="pip">1</span><span class="pip">2</span><span class="pip on">3</span>
+          <span class="pip">4</span><span class="pip">5</span>
+        </div>
+        <div class="foot"><span>Moyenne 2,9</span><span class="sp">8 votes</span></div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>A5</div>
+        <h3>Une jauge, un curseur</h3>
+        <p class="why">Une seule piste, la moyenne posée dessus. Le plus léger — on perd la répartition exacte.</p>
+      </figcaption>
+      <div class="screen">
+        <p class="q">À quel point les modèles climatiques à long terme te convainquent ?</p>
+        <div class="gauge"><i style="left:58%"></i></div>
+        <div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>
+        <div class="foot"><span class="avg" style="font-size:15px">2,9<small>/5</small></span><span class="sp">8 votes</span></div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>A6</div>
+        <h3>Segments pleins</h3>
+        <p class="why">Trois segments sur cinq allumés : la note se lit comme un niveau, sans aucun chiffre.</p>
+      </figcaption>
+      <div class="screen">
+        <p class="q">À quel point les modèles climatiques à long terme te convainquent ?</p>
+        <div class="segs"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+        <div class="ticks"><span>Pas du tout</span><span>Tout à fait</span></div>
+        <div class="foot"><span>Plutôt moyen</span><span class="sp">8 votes</span></div>
+      </div>
+    </figure>
+
+  </div>
+</section>
+
+<!-- ═══════════ B — QCM ═══════════ -->
+<section>
+  <div class="shead">
+    <div class="eyebrow">B · Questions à choix multiples</div>
+    <h2>Quatre barres qui se ressemblent</h2>
+    <p class="said">Imo : <q>pour les multi réponses je veux voir quelles sont nos options en design,
+      je suis sûr qu'on peut faire mieux</q>. Le problème n'est pas la barre : c'est que les quatre
+      options pèsent visuellement pareil, alors qu'une seule a gagné.</p>
+  </div>
+  <div class="grid">
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>B1<span class="current">Aujourd'hui</span></div>
+        <h3>Quatre barres égales</h3>
+        <p class="why">Même hauteur, même fond, le remplissage seul distingue. Lisible, mais plat.</p>
+      </figcaption>
+      <div class="screen">
+        <p class="q">Lequel changerait le plus ta vie quotidienne ?</p>
+        <div class="rows">
+          <div class="row"><i class="fill" style="width:33%"></i><span class="lab">Transport moins cher<span class="pct">33 %</span></span></div>
+          <div class="row"><i class="fill" style="width:22%"></i><span class="lab">Semaine plus courte<span class="pct">22 %</span></span></div>
+          <div class="row"><i class="fill" style="width:33%"></i><span class="lab">Meilleur logement<span class="pct">33 %</span></span></div>
+          <div class="row"><i class="fill" style="width:11%"></i><span class="lab">Garde d'enfants<span class="pct">11 %</span></span></div>
+        </div>
+        <div class="foot"><span>8 commentaires</span><span class="sp">9 votes</span></div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>B2</div>
+        <h3>Sans boîte</h3>
+        <p class="why">Plus de fond gris : le texte, puis un filet fin dessous. Trois niveaux de gris en moins.</p>
+      </figcaption>
+      <div class="screen">
+        <p class="q">Lequel changerait le plus ta vie quotidienne ?</p>
+        <div style="display:flex; flex-direction:column; gap:11px;">
+          <div><div style="display:flex; font-size:14px; font-weight:500;">Transport moins cher<span style="margin-left:auto; font-variant-numeric:tabular-nums; color:var(--ink2)">33 %</span></div><div class="mini" style="background:var(--muted)"><i style="width:33%; background:var(--fg)"></i></div></div>
+          <div><div style="display:flex; font-size:14px; font-weight:500;">Semaine plus courte<span style="margin-left:auto; font-variant-numeric:tabular-nums; color:var(--ink2)">22 %</span></div><div class="mini" style="background:var(--muted)"><i style="width:22%; background:var(--fg)"></i></div></div>
+          <div><div style="display:flex; font-size:14px; font-weight:500;">Meilleur logement<span style="margin-left:auto; font-variant-numeric:tabular-nums; color:var(--ink2)">33 %</span></div><div class="mini" style="background:var(--muted)"><i style="width:33%; background:var(--fg)"></i></div></div>
+          <div><div style="display:flex; font-size:14px; font-weight:500;">Garde d'enfants<span style="margin-left:auto; font-variant-numeric:tabular-nums; color:var(--ink2)">11 %</span></div><div class="mini" style="background:var(--muted)"><i style="width:11%; background:var(--fg)"></i></div></div>
+        </div>
+        <div class="foot"><span>8 commentaires</span><span class="sp">9 votes</span></div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>B3</div>
+        <h3>Une seule barre partagée</h3>
+        <p class="why">Les quatre parts d'un même tout, comme un camembert déplié. Le rapport saute aux yeux.</p>
+      </figcaption>
+      <div class="screen">
+        <p class="q">Lequel changerait le plus ta vie quotidienne ?</p>
+        <div style="display:flex; height:30px; border-radius:8px; overflow:hidden;">
+          <div style="width:33%; background:var(--fg)"></div>
+          <div style="width:22%; background:var(--ink2)"></div>
+          <div style="width:33%; background:var(--ink3)"></div>
+          <div style="width:12%; background:var(--track)"></div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:5px; font-size:12px;">
+          <div style="display:flex; gap:7px; align-items:center;"><i style="width:9px;height:9px;border-radius:2px;background:var(--fg)"></i>Transport moins cher<span style="margin-left:auto; font-variant-numeric:tabular-nums">33 %</span></div>
+          <div style="display:flex; gap:7px; align-items:center;"><i style="width:9px;height:9px;border-radius:2px;background:var(--ink2)"></i>Semaine plus courte<span style="margin-left:auto; font-variant-numeric:tabular-nums">22 %</span></div>
+          <div style="display:flex; gap:7px; align-items:center;"><i style="width:9px;height:9px;border-radius:2px;background:var(--ink3)"></i>Meilleur logement<span style="margin-left:auto; font-variant-numeric:tabular-nums">33 %</span></div>
+          <div style="display:flex; gap:7px; align-items:center;"><i style="width:9px;height:9px;border-radius:2px;background:var(--track)"></i>Garde d'enfants<span style="margin-left:auto; font-variant-numeric:tabular-nums">11 %</span></div>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>B4</div>
+        <h3>Le gagnant devant</h3>
+        <p class="why">En tête d'affiche, le reste en petit dessous. Une hiérarchie au lieu d'une liste.</p>
+      </figcaption>
+      <div class="screen">
+        <p class="q">Lequel changerait le plus ta vie quotidienne ?</p>
+        <div style="border-radius:12px; background:var(--muted); padding:12px 13px; display:flex; flex-direction:column; gap:3px;">
+          <div style="font-size:12px; color:var(--ink2)">En tête</div>
+          <div style="display:flex; align-items:baseline; gap:8px;">
+            <span style="font-size:15.5px; font-weight:650;">Transport moins cher</span>
+            <span style="margin-left:auto; font-size:20px; font-weight:700; font-variant-numeric:tabular-nums;">33 %</span>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:7px; font-size:12.5px; color:var(--ink2);">
+          <div style="display:flex">Meilleur logement<span style="margin-left:auto; font-variant-numeric:tabular-nums">33 %</span></div>
+          <div style="display:flex">Semaine plus courte<span style="margin-left:auto; font-variant-numeric:tabular-nums">22 %</span></div>
+          <div style="display:flex">Garde d'enfants<span style="margin-left:auto; font-variant-numeric:tabular-nums">11 %</span></div>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>B5</div>
+        <h3>Avant le vote, rien</h3>
+        <p class="why">Quatre choix nus. Les pourcentages n'apparaissent qu'après avoir voté — on ne suit plus la foule.</p>
+      </figcaption>
+      <div class="screen">
+        <p class="q">Lequel changerait le plus ta vie quotidienne ?</p>
+        <div class="rows">
+          <div class="row" style="background:transparent; border:1.5px solid var(--line)"><span class="lab">Transport moins cher</span></div>
+          <div class="row" style="background:transparent; border:1.5px solid var(--line)"><span class="lab">Semaine plus courte</span></div>
+          <div class="row" style="background:transparent; border:1.5px solid var(--line)"><span class="lab">Meilleur logement</span></div>
+          <div class="row" style="background:transparent; border:1.5px solid var(--line)"><span class="lab">Garde d'enfants</span></div>
+        </div>
+        <div class="foot"><span>Vote pour voir les résultats</span></div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>B6</div>
+        <h3>Deux colonnes</h3>
+        <p class="why">Quatre options tiennent sur deux lignes au lieu de quatre : la carte raccourcit de moitié.</p>
+      </figcaption>
+      <div class="screen">
+        <p class="q">Lequel changerait le plus ta vie quotidienne ?</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:7px;">
+          <div class="row" style="height:52px; align-items:flex-start;"><i class="fill" style="width:33%"></i><span class="lab" style="flex-direction:column; align-items:flex-start; gap:2px; padding-block:8px; font-size:12.5px;">Transport moins cher<b style="font-size:14px">33 %</b></span></div>
+          <div class="row" style="height:52px;"><i class="fill" style="width:22%"></i><span class="lab" style="flex-direction:column; align-items:flex-start; gap:2px; padding-block:8px; font-size:12.5px;">Semaine plus courte<b style="font-size:14px">22 %</b></span></div>
+          <div class="row" style="height:52px;"><i class="fill" style="width:33%"></i><span class="lab" style="flex-direction:column; align-items:flex-start; gap:2px; padding-block:8px; font-size:12.5px;">Meilleur logement<b style="font-size:14px">33 %</b></span></div>
+          <div class="row" style="height:52px;"><i class="fill" style="width:11%"></i><span class="lab" style="flex-direction:column; align-items:flex-start; gap:2px; padding-block:8px; font-size:12.5px;">Garde d'enfants<b style="font-size:14px">11 %</b></span></div>
+        </div>
+      </div>
+    </figure>
+
+  </div>
+</section>
+
+<!-- ═══════════ C — EXPLORER ═══════════ -->
+<section>
+  <div class="shead">
+    <div class="eyebrow">C · Explorer</div>
+    <h2>Une recherche, six catégories, un classement</h2>
+    <p class="said">Imo : <q>revoir le design, trop d'infos je trouve</q>. L'écran empile aujourd'hui
+      une barre de recherche, une rangée de catégories, un take en vedette avec sa barre de vote,
+      puis une liste numérotée où chaque ligne porte encore une vignette, un score et une mini-barre.</p>
+  </div>
+  <div class="grid">
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>C1<span class="current">Aujourd'hui</span></div>
+        <h3>Tout à l'écran</h3>
+        <p class="why">Recherche, catégories, vedette et classement complet. Cinq informations par ligne.</p>
+      </figcaption>
+      <div class="screen">
+        <div class="searchbar">Cherche des takes, des gens, des lieux</div>
+        <div class="cats"><b>Tendances</b><span>Politique</span><span>Sport</span><span>Tech</span></div>
+        <div>
+          <div class="meta">1 · 11 votes · Économie</div>
+          <p class="q" style="font-size:14px; margin-block:5px 7px">Le curry est-il meilleur le lendemain ?</p>
+          <div class="split"><span class="y">55 %</span><span class="n">45 %</span></div>
+          <div class="bar" style="margin-top:4px"><i style="width:55%"></i></div>
+        </div>
+        <div class="rank"><span class="n">2</span><div class="thumb"></div>
+          <div style="flex:1"><p>Tes amis trouvent-ils mieux que l'algorithme ?</p><div class="mini"><i style="width:56%"></i></div></div>
+          <div class="sc">56 %<em>oui</em></div></div>
+        <div class="rank"><span class="n">3</span><div class="thumb"></div>
+          <div style="flex:1"><p>Lequel changerait le plus ta vie ?</p><div class="mini"><i style="width:33%"></i></div></div>
+          <div class="sc">33 %<em>transport</em></div></div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>C2</div>
+        <h3>Sans les mini-barres</h3>
+        <p class="why">Le retrait le plus rentable : la ligne garde son score, perd la barre qui le répète.</p>
+      </figcaption>
+      <div class="screen">
+        <div class="searchbar">Cherche des takes, des gens, des lieux</div>
+        <div class="cats"><b>Tendances</b><span>Politique</span><span>Sport</span><span>Tech</span></div>
+        <div>
+          <div class="meta">1 · 11 votes · Économie</div>
+          <p class="q" style="font-size:14px; margin-block:5px 7px">Le curry est-il meilleur le lendemain ?</p>
+          <div class="split"><span class="y">55 %</span><span class="n">45 %</span></div>
+          <div class="bar" style="margin-top:4px"><i style="width:55%"></i></div>
+        </div>
+        <div class="rank"><span class="n">2</span><div class="thumb"></div>
+          <p style="flex:1">Tes amis trouvent-ils mieux que l'algorithme ?</p><div class="sc">56 %</div></div>
+        <div class="rank"><span class="n">3</span><div class="thumb"></div>
+          <p style="flex:1">Lequel changerait le plus ta vie ?</p><div class="sc">33 %</div></div>
+        <div class="rank"><span class="n">4</span><div class="thumb"></div>
+          <p style="flex:1">Un score serré rend-il le match meilleur ?</p><div class="sc">38 %</div></div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>C3</div>
+        <h3>La vedette prend la place</h3>
+        <p class="why">Un seul take en grand, le classement en texte dessous. On entre par le contenu, pas par le tableau.</p>
+      </figcaption>
+      <div class="screen">
+        <div class="cats"><b>Tendances</b><span>Politique</span><span>Sport</span><span>Tech</span></div>
+        <div style="border-radius:12px; overflow:hidden; background:var(--muted)">
+          <div style="height:84px; background:linear-gradient(140deg,#cfe0d6,#9fb6a8)"></div>
+          <div style="padding:10px 11px 12px">
+            <div class="meta" style="margin-bottom:4px">11 votes · Économie</div>
+            <p class="q" style="font-size:14px">Le curry est-il meilleur le lendemain ?</p>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:9px; font-size:12.5px;">
+          <div style="display:flex; gap:9px;"><b style="color:var(--ink2)">2</b>Tes amis trouvent-ils mieux que l'algorithme ?</div>
+          <div style="display:flex; gap:9px;"><b style="color:var(--ink2)">3</b>Lequel changerait le plus ta vie ?</div>
+          <div style="display:flex; gap:9px;"><b style="color:var(--ink2)">4</b>Un score serré rend-il le match meilleur ?</div>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>C4</div>
+        <h3>Grille de vignettes</h3>
+        <p class="why">On parcourt des images, pas un classement. Deux fois plus de takes à l'écran.</p>
+      </figcaption>
+      <div class="screen">
+        <div class="searchbar">Cherche des takes, des gens, des lieux</div>
+        <div class="cats"><b>Tendances</b><span>Politique</span><span>Sport</span></div>
+        <div class="tiles">
+          <div class="tile"><div class="im"></div><p>Le curry est-il meilleur le lendemain ?</p></div>
+          <div class="tile"><div class="im" style="background:linear-gradient(140deg,#cfd8e6,#9fa8b6)"></div><p>Tes amis trouvent-ils mieux que l'algorithme ?</p></div>
+          <div class="tile"><div class="im" style="background:linear-gradient(140deg,#e6dccf,#b6a89f)"></div><p>Lequel changerait le plus ta vie ?</p></div>
+          <div class="tile"><div class="im" style="background:linear-gradient(140deg,#d8cfe6,#a89fb6)"></div><p>Un score serré rend-il le match meilleur ?</p></div>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>C5</div>
+        <h3>Les catégories d'abord</h3>
+        <p class="why">On choisit un sujet avant de voir des takes. La recherche passe derrière une loupe.</p>
+      </figcaption>
+      <div class="screen">
+        <div style="display:flex; align-items:center;">
+          <span class="bigtitle" style="font-size:20px">Explorer</span>
+          <span style="margin-left:auto; width:20px; height:20px; border-radius:50%; background:var(--muted)"></span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:7px;">
+          <div style="height:44px; border-radius:10px; background:var(--muted); display:flex; align-items:center; padding-inline:12px; font-size:13px; font-weight:600;">Économie</div>
+          <div style="height:44px; border-radius:10px; background:var(--muted); display:flex; align-items:center; padding-inline:12px; font-size:13px; font-weight:600;">Politique</div>
+          <div style="height:44px; border-radius:10px; background:var(--muted); display:flex; align-items:center; padding-inline:12px; font-size:13px; font-weight:600;">Sport</div>
+          <div style="height:44px; border-radius:10px; background:var(--muted); display:flex; align-items:center; padding-inline:12px; font-size:13px; font-weight:600;">Culture</div>
+        </div>
+        <div class="meta" style="margin-top:2px">En ce moment · 11 votes</div>
+        <p class="q" style="font-size:14px">Le curry est-il meilleur le lendemain ?</p>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>C6</div>
+        <h3>Classement nu</h3>
+        <p class="why">Ni vignette ni score : le rang et la question. Le plus dépouillé des six.</p>
+      </figcaption>
+      <div class="screen">
+        <div class="searchbar">Cherche des takes, des gens, des lieux</div>
+        <div class="cats"><b>Tendances</b><span>Politique</span><span>Sport</span><span>Tech</span></div>
+        <div style="display:flex; flex-direction:column;">
+          <div style="display:flex; gap:11px; padding-block:11px; border-bottom:1px solid var(--hair); font-size:13px;"><b style="color:var(--ink3); width:12px">1</b>Le curry est-il meilleur le lendemain ?</div>
+          <div style="display:flex; gap:11px; padding-block:11px; border-bottom:1px solid var(--hair); font-size:13px;"><b style="color:var(--ink3); width:12px">2</b>Tes amis trouvent-ils mieux que l'algorithme ?</div>
+          <div style="display:flex; gap:11px; padding-block:11px; border-bottom:1px solid var(--hair); font-size:13px;"><b style="color:var(--ink3); width:12px">3</b>Lequel changerait le plus ta vie ?</div>
+          <div style="display:flex; gap:11px; padding-block:11px; font-size:13px;"><b style="color:var(--ink3); width:12px">4</b>Un score serré rend-il le match meilleur ?</div>
+        </div>
+      </div>
+    </figure>
+
+  </div>
+</section>
+
+<!-- ═══════════ D — EN-TÊTE ═══════════ -->
+<section>
+  <div class="shead">
+    <div class="eyebrow">D · En-tête de l'accueil</div>
+    <h2>« Takes » et « Amis »</h2>
+    <p class="said">Imo : <q>la manière dont Take et Friends est écrit, il devrait y avoir une façon
+      + actuelle et esthétique de le faire ; pareil pour le nearby</q>. Les deux mots portent
+      aujourd'hui la même graisse et la même taille que des titres de page.</p>
+  </div>
+  <div class="grid">
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>D1<span class="current">Aujourd'hui</span></div>
+        <h3>Deux titres soulignés</h3>
+        <p class="why">Même taille, même graisse, un trait épais sous l'actif. Lisible mais lourd.</p>
+      </figcaption>
+      <div class="screen" style="padding-block:18px">
+        <div class="topbar"><span class="tab">Takes</span><span class="tab on">Amis <span class="chev">▾</span></span><span class="bell"></span></div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>D2</div>
+        <h3>Bascule en pilule</h3>
+        <p class="why">Les deux vues deviennent un seul objet. On voit qu'elles s'excluent.</p>
+      </figcaption>
+      <div class="screen" style="padding-block:18px">
+        <div class="topbar">
+          <span class="pillbar"><span>Takes</span><span class="on">Amis</span></span>
+          <span class="bell"></span>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>D3</div>
+        <h3>Le nom, puis le filtre</h3>
+        <p class="why">Le wordmark reprend sa place ; la vue courante devient un menu discret sous lui.</p>
+      </figcaption>
+      <div class="screen" style="padding-block:18px">
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <div style="display:flex; align-items:center;">
+            <span class="bigtitle">take</span>
+            <span class="bell" style="margin-left:auto"></span>
+          </div>
+          <div style="font-size:13.5px; font-weight:600; color:var(--ink2)">Amis <span class="chev">▾</span></div>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>D4</div>
+        <h3>Onglets fins</h3>
+        <p class="why">Deux crans plus petits, un filet de marque au lieu d'un trait noir épais.</p>
+      </figcaption>
+      <div class="screen" style="padding-block:18px">
+        <div class="topbar">
+          <span class="underfine"><span>Takes</span><b>Amis</b></span>
+          <span class="bell"></span>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>D5</div>
+        <h3>Trois vues, dont la carte</h3>
+        <p class="why">« Près d'ici » rejoint la bascule au lieu de vivre ailleurs — ce qu'Imo demande pour le nearby.</p>
+      </figcaption>
+      <div class="screen" style="padding-block:18px">
+        <div class="topbar">
+          <span class="pillbar"><span>Takes</span><span class="on">Amis</span><span>Près d'ici</span></span>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>D6</div>
+        <h3>Un seul mot</h3>
+        <p class="why">La vue s'écrit en grand, l'autre attend derrière le chevron. Le plus calme.</p>
+      </figcaption>
+      <div class="screen" style="padding-block:18px">
+        <div class="topbar">
+          <span class="bigtitle" style="font-size:23px">Amis <span class="chev" style="font-size:14px">▾</span></span>
+          <span class="bell"></span>
+        </div>
+      </div>
+    </figure>
+
+  </div>
+</section>
+
+<!-- ═══════════ E — QUESTIONS ═══════════ -->
+<section>
+  <div class="shead">
+    <div class="eyebrow">E · Questions et réponses publiées</div>
+    <h2>Une carte, une pilule, un avatar</h2>
+    <p class="said">Imo : <q>trop d'infos de gris clair / gris foncé / de trucs entourés, dérouté
+      — vraiment s'inspirer d'ask.fm et faire un truc bcp + simple et compréhensible</q>.
+      Chaque réponse est aujourd'hui une boîte dans une boîte : carte encadrée, puis pilule grise.</p>
+  </div>
+  <div class="grid">
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>E1<span class="current">Aujourd'hui</span></div>
+        <h3>Carte + pilule</h3>
+        <p class="why">Deux surfaces imbriquées, deux gris, un contour. C'est ce qu'Imo appelle « entouré ».</p>
+      </figcaption>
+      <div class="screen">
+        <div class="meta">2 réponses publiées</div>
+        <div class="qcard">
+          <div><p class="q" style="font-size:14px">T'as vu la perf de Yamal ?</p><div class="asked">Demandé par Jordan2</div></div>
+          <div class="ans"><span class="ghost">?</span>Imo · Tg</div>
+        </div>
+        <div class="qcard">
+          <div><p class="q" style="font-size:14px">C'est qui ton crush ?</p><div class="asked">Demandé anonymement</div></div>
+          <div class="ans"><span class="ghost">?</span>Imo · Miss Gears</div>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>E2</div>
+        <h3>Sans cadre</h3>
+        <p class="why">Un filet fin entre deux questions remplace la carte. Un seul gris sur tout l'écran.</p>
+      </figcaption>
+      <div class="screen">
+        <div class="meta">2 réponses publiées</div>
+        <div class="plain">
+          <p class="q" style="font-size:14px">T'as vu la perf de Yamal ?</p>
+          <div style="font-size:13px; color:var(--soft)">Tg</div>
+          <div class="asked">Demandé par Jordan2</div>
+        </div>
+        <div class="plain" style="border-bottom:none">
+          <p class="q" style="font-size:14px">C'est qui ton crush ?</p>
+          <div style="font-size:13px; color:var(--soft)">Miss Gears</div>
+          <div class="asked">Demandé anonymement</div>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>E3</div>
+        <h3>Comme une conversation</h3>
+        <p class="why">La question arrive à gauche, la réponse part à droite. Le rôle de chacun se lit sans étiquette.</p>
+      </figcaption>
+      <div class="screen">
+        <div class="meta">2 réponses publiées</div>
+        <div class="stack">
+          <div class="bub them">T'as vu la perf de Yamal ?</div>
+          <div class="bub me">Tg</div>
+        </div>
+        <div class="stack">
+          <div class="bub them">C'est qui ton crush ?</div>
+          <div class="bub me">Miss Gears</div>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>E4</div>
+        <h3>La question domine</h3>
+        <p class="why">Comme ask.fm : la question en grand, la réponse en dessous, sans surface. Deux niveaux, pas quatre.</p>
+      </figcaption>
+      <div class="screen">
+        <div class="meta">2 réponses publiées</div>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div>
+            <p style="margin:0 0 6px; font-size:16px; font-weight:700; line-height:1.25; letter-spacing:-.3px;">T'as vu la perf de Yamal ?</p>
+            <p style="margin:0; font-size:14px; color:var(--soft); line-height:1.45;">Tg</p>
+            <div class="asked" style="margin-top:5px">Jordan2 · 30 août</div>
+          </div>
+          <div>
+            <p style="margin:0 0 6px; font-size:16px; font-weight:700; line-height:1.25; letter-spacing:-.3px;">C'est qui ton crush ?</p>
+            <p style="margin:0; font-size:14px; color:var(--soft); line-height:1.45;">Miss Gears</p>
+            <div class="asked" style="margin-top:5px">Anonyme · 30 août</div>
+          </div>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>E5</div>
+        <h3>Repliées par défaut</h3>
+        <p class="why">On voit les questions, on tape pour lire la réponse. Dix tiennent à l'écran au lieu de deux.</p>
+      </figcaption>
+      <div class="screen">
+        <div class="meta">5 réponses publiées</div>
+        <div style="display:flex; flex-direction:column;">
+          <div class="tapline">T'as vu la perf de Yamal ?<span class="more">Voir</span></div>
+          <div class="tapline">C'est qui ton crush ?<span class="more">Voir</span></div>
+          <div class="tapline">Tu es beau Adam !<span class="more">Voir</span></div>
+          <div class="tapline" style="border-bottom:none">Balcon ou terrasse ?<span class="more">Voir</span></div>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="opt">
+      <figcaption>
+        <div class="num"><span class="dot"></span>E6</div>
+        <h3>Le fantôme porte l'anonymat</h3>
+        <p class="why">Une seule marque dit qui demande — et l'anonyme devient visible, ce qu'Imo réclame par ailleurs.</p>
+      </figcaption>
+      <div class="screen">
+        <div class="meta">2 réponses publiées</div>
+        <div style="display:flex; flex-direction:column; gap:15px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:5px;">
+              <span class="ava">J2</span><span class="asked">Jordan2</span>
+            </div>
+            <p style="margin:0 0 5px; font-size:15px; font-weight:650; line-height:1.3;">T'as vu la perf de Yamal ?</p>
+            <p style="margin:0; font-size:13.5px; color:var(--soft)">Tg</p>
+          </div>
+          <div>
+            <div style="display:flex; align-items:center; gap:6px; margin-bottom:5px;">
+              <span class="ghost">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="color:var(--ink2)">
+                  <path d="M12 2a8 8 0 0 0-8 8v11l3-2 2.5 2L12 19l2.5 2 2.5-2 3 2V10a8 8 0 0 0-8-8Zm-3 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8Zm6 0a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8Z"/>
+                </svg>
+              </span>
+              <span class="asked">Anonyme</span>
+            </div>
+            <p style="margin:0 0 5px; font-size:15px; font-weight:650; line-height:1.3;">C'est qui ton crush ?</p>
+            <p style="margin:0; font-size:13.5px; color:var(--soft)">Miss Gears</p>
+          </div>
+        </div>
+      </div>
+    </figure>
+
+  </div>
+</section>
+
+<footer>
+  <p style="margin:0"><b>Comment choisir.</b> Un numéro par écran suffit — A3, B4, C2, D2, E4 par exemple.
+    Les directions se combinent : le mécanisme d'une colonne A peut aller avec la hiérarchie d'une colonne B.</p>
+  <p style="margin:0">Les couleurs, graisses et géométries viennent du thème réel de l'app
+    (<span style="font-variant-numeric:tabular-nums">#F0F2F5</span> pour les surfaces,
+    <span style="font-variant-numeric:tabular-nums">#16A34A</span> et
+    <span style="font-variant-numeric:tabular-nums">#DC2626</span> pour les votes,
+    hauteur de rangée 36&nbsp;px, écart 6&nbsp;px) : ce qui est choisi ici se code tel quel.</p>
+  <p style="margin:0; color:var(--ink3)">D'après les retours d'Imhotep Olympio du 22 septembre.</p>
+</footer>
+
+</div>
+</body>
+</html>
